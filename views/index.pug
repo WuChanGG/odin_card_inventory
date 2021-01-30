@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to the inventory
+
+  a(href='/inventory/cards') See the full card list.
+  hr
+  - let numberOfCards = data.creatureCards.length + data.spellCards.length + data.artifactCards.length
+  p Total cards: !{numberOfCards}
+  p Total number of creature cards: !{data.creatureCards.length} 
+  p Total number of spell cards: !{data.spellCards.length}
+  p Total number of artifact cards: !{data.artifactCards.length}

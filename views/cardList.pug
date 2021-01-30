@@ -1,0 +1,75 @@
+extends layout
+
+block content
+    h1= title
+    div(class='container-fluid')
+        div(class='row')
+            div(class='col-sm-4 text-center')
+                h3 Creature Cards
+                hr
+                each card, index in data.creatureCards  
+                    div(class="card border-dark mb-1")
+                        // Base card members
+                        div(class="text-success bg-dark") Name
+                        div(class="bg-primary") 
+                            p !{card.url}
+                            a(href=card.url) Name !{card.baseCard.name}
+                        div(class="text-success bg-dark") Burn Color: 
+                        div(class="bg-primary") !{card.baseCard.color}
+                        div(class="text-success bg-dark") Required Gems:
+                            each gem, index in card.baseCard.requiredGems
+                                    div(class="text-dark bg-primary") !{gem}
+                        div(class="text-success bg-dark") Mana Cost:
+                        div(class="bg-primary") !{card.baseCard.manaCost}
+                        div(class="text-success bg-dark") Rarity:
+                        div(class="bg-primary") !{card.baseCard.rarity}
+                        // Child of base card members (creature)
+                        div(class="text-success bg-dark") Strength:
+                        div(class="bg-primary") !{card.strength}
+                        div(class="text-success bg-dark") Health:
+                        div(class="bg-primary") !{card.health}
+                        div(class="text-success bg-dark") Effects:
+                        div(class="bg-primary") !{card.effects}
+
+            div(class='col-sm-4 text-center')
+                h3 Spell Cards
+                hr
+                each card, index in data.spellCards  
+                    div(class="card border-dark mb-1")
+                        // Base card members
+                        div(class="text-success bg-dark") Name
+                        div(class="bg-primary") !{card.baseCard.name}
+                        div(class="text-success bg-dark") Burn Color: 
+                        div(class="bg-primary") !{card.baseCard.color}
+                        div(class="text-success bg-dark") Required Gems:
+                            each gem, index in card.baseCard.requiredGems
+                                    div(class="text-dark bg-primary") !{gem}
+                        div(class="text-success bg-dark") Mana Cost:
+                        div(class="bg-primary") !{card.baseCard.manaCost}
+                        div(class="text-success bg-dark") Rarity:
+                        div(class="bg-primary") !{card.baseCard.rarity}
+                        // Child of base card members (creature)
+                        div(class="text-success bg-dark") Effects:
+                        div(class="bg-primary") !{card.effects}
+            div(class='col-sm-4 text-center')
+                h3 Artifact cards
+                hr
+                each card, index in data.artifactCards  
+                    div(class="card border-dark mb-1")
+                        // Base card members
+                        div(class="text-success bg-dark") Name
+                        div(class="bg-primary") !{card.baseCard.name}
+                        div(class="text-success bg-dark") Burn Color: 
+                        div(class="bg-primary") !{card.baseCard.color}
+                        div(class="text-success bg-dark") Required Gems:
+                            each gem, index in card.baseCard.requiredGems
+                                    div(class="text-dark bg-primary") !{gem}
+                        div(class="text-success bg-dark") Mana Cost:
+                        div(class="bg-primary") !{card.baseCard.manaCost}
+                        div(class="text-success bg-dark") Rarity:
+                        div(class="bg-primary") !{card.baseCard.rarity}
+                        // Child of base card members (creature)
+                        div(class="text-success bg-dark") Effects:
+                        div(class="bg-primary") !{card.effects}
+                        div(class="text-success bg-dark") Initial Energy:
+                        div(class="bg-primary") !{card.energy}
