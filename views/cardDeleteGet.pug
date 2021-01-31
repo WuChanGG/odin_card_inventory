@@ -1,0 +1,22 @@
+extends layout
+
+block content
+    div(class="container-fluid")
+        h1= title
+        if cards.creatureCard
+            - let card = cards.creatureCard
+            p Card Name: #{card.baseCard.name}
+            form(method='POST' action='')
+                button.btn.btn-primary(type='submit') Delete card.
+        else if cards.spellCard
+            - let card = cards.spellCard
+            p Card Name: #{card.baseCard.name}
+            form(method='POST' action='')
+                button.btn.btn-primary(type='submit') Delete card.
+        else if cards.artifactCard
+            - let card = cards.artifactCard
+            p Card Name: #{card.baseCard.name}
+            form(method='POST' action='')
+                button.btn.btn-primary(type='submit') Delete card.
+        else
+            p No card found.

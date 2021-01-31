@@ -8,6 +8,8 @@ module.exports.cardColorsArray = cardColorsArray;
 
 let rarityArray = ['Common', 'Uncommon', 'Rare', 'Mythic'];
 
+exports.rarityArray = rarityArray;
+
 let baseCardSchema = new Schema({
     // The color that the card will give when burnt
     color: { type: String, required: true, minlength: 1 },
@@ -41,19 +43,25 @@ let artifactCardSchema = new Schema({
 artifactCardSchema.virtual('url').get(function() {
     console.log('Id from url virtual');
     console.log(this._id);
-    return '/inventory/card/' + this._id;
+    return '/inventory/card/' + this.id;
 });
 
 spellCardSchema.virtual('url').get(function() {
     console.log('Id from url virtual');
     console.log(this._id);
-    return '/inventory/card/' + this._id;
+    return '/inventory/card/' + this.id;
 });
 
 creatureCardSchema.virtual('url').get(function() {
     console.log('Id from url virtual');
     console.log(this._id);
-    return '/inventory/card/' + this._id;
+    return '/inventory/card/' + this.id;
+});
+
+creatureCardSchema.virtual('deleteUrl').get(function() {
+    console.log('Id from url virtual');
+    console.log(this._id);
+    return '/inventory/card/delete/' + this.id;
 });
 
 exports.creatureCardModel = mongoose.model('creatureCard', creatureCardSchema);

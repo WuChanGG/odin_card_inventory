@@ -12,8 +12,7 @@ block content
                         // Base card members
                         div(class="text-success bg-dark") Name
                         div(class="bg-primary") 
-                            p !{card.url}
-                            a(href=card.url) Name !{card.baseCard.name}
+                            a(href=card.url) !{card.baseCard.name}
                         div(class="text-success bg-dark") Burn Color: 
                         div(class="bg-primary") !{card.baseCard.color}
                         div(class="text-success bg-dark") Required Gems:
@@ -38,7 +37,8 @@ block content
                     div(class="card border-dark mb-1")
                         // Base card members
                         div(class="text-success bg-dark") Name
-                        div(class="bg-primary") !{card.baseCard.name}
+                        div(class="bg-primary")
+                            a(href=card.url) !{card.baseCard.name}
                         div(class="text-success bg-dark") Burn Color: 
                         div(class="bg-primary") !{card.baseCard.color}
                         div(class="text-success bg-dark") Required Gems:
