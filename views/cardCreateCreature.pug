@@ -60,6 +60,7 @@ block content
             // This will be sliced and turned into an array
             // TODO(Wuhie): Fix this so it puts the value as a string instead of an array
             div.form-group
+                p The format to enter the required gems is a list of gem colors separated by commas (e.g. Red,Blue,Red)
                 if updateCard && updateCard.creatureCard
                     label(for='requiredGems') Required Gems:
                     input#requiredGems.form-control(type='text' placeholder='Required Gems' name='requiredGems' required='true' value=(undefined===updateCard.creatureCard ? '' : updateCard.creatureCard.baseCard.requiredGems))
