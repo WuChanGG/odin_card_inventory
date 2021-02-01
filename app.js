@@ -46,7 +46,7 @@ app.use(function(err, req, res, next) {
 module.exports = app;
 
 function connectToDatabase() {
-  let mongoDB = process.env.MONGODB_URI || dev_db_url;
+  let mongoDB = process.env.MONGODB_URI;
   mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
 
   let db = mongoose.connection;
