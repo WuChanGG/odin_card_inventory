@@ -1,0 +1,16 @@
+extends layout
+
+block content
+    div(class="container-fluid")
+        if data
+        if data.creatureCard
+            - let card = data.creatureCard
+            // Base card
+            p #[strong Card Name:] !{data.baseCard.name}
+            p #[strong Required Gems:] !{data.baseCard.requiredGems}
+            p #[strong Color:] !{data.baseCard.requiredGems}
+        else if data.spellCard
+            - let card = data.SpellCard
+        else if data.artifactCard
+            - let card = data.artifactCard
+        else

@@ -64,6 +64,10 @@ creatureCardSchema.virtual('deleteUrl').get(function() {
     return '/inventory/card/delete/' + this.id;
 });
 
+creatureCardSchema.virtual('updateUrl').get(function() {
+    return '/inventory/card/update/' + this.id;
+});
+
 exports.creatureCardModel = mongoose.model('creatureCard', creatureCardSchema);
 
 module.exports.spellCardModel = mongoose.model('spellCard', spellCardSchema);

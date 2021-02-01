@@ -48,7 +48,7 @@ module.exports = app;
 function connectToDatabase() {
   let dev_db_url = 'mongodb://bflabs:F3B04cgVBT6fmOLr@cluster0-shard-00-00.v2b88.mongodb.net:27017,cluster0-shard-00-01.v2b88.mongodb.net:27017,cluster0-shard-00-02.v2b88.mongodb.net:27017/card_inventory?ssl=true&replicaSet=atlas-14nkr5-shard-0&authSource=admin&retryWrites=true&w=majority';
   let mongoDB = process.env.MONGODB_URI || dev_db_url;
-  mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
+  mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
 
   let db = mongoose.connection;
 

@@ -10,6 +10,10 @@ router.get('/card/create_creature', cardController.cardCreateCreatureGet);
 
 router.get('/card/delete/:id', cardController.cardDeleteGet);
 
+router.get('/card/update/:id', cardController.cardUpdateGet);
+
+router.post('/card/update/:id', cardController.cardUpdatePost);
+
 router.post('/card/delete/:id', cardController.cardDeletePost);
 // Card detail router
 router.get('/card/:id', cardController.cardDetail);

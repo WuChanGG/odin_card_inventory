@@ -121,7 +121,7 @@ exports.creatureCardCreatePost = [
         .escape(),
     body('health').isNumeric().withMessage('Health must be a number')
         .escape(),
-    body('Effects').optional({checkFalsy: true}).escape(),
+    body('effects').optional({checkFalsy: true}).escape(),
 
     (req, res, next) => {
         const errors = validationResult(req);
@@ -248,9 +248,135 @@ exports.cardDeletePost = function(req, res) {
 }
 
 exports.cardUpdateGet = function (req, res, next) {
+    let id = req.params.id;
 
+    async.parallel({
+        creatureCard: (callback) => {
+            cards.creatureCardModel.findById(id)
+                .populate('baseCard').exec(callback);
+        },
+        spellCard: (callback) => {
+            cards.spellCardModel.findById(id)
+                .populate('baseCard').exec(callback);
+        },
+        artifactCard: (callback) => {
+            cards.artifactCardModel.findById(id)
+                .populate('baseCard').exec(callback);
+        },
+    }, (err, result) => {
+        if (err) {
+            next(err, null);
+            return;
+        }
+
+        res.render('cardCreateCreature', {
+            cardColorArray: cards.cardColorsArray,
+            rarityArray: cards.rarityArray,
+            updateCard: result
+        });
+        return;
+
+        if (result.creatureCard) {
+            
+        } else if (result.spellCard) {
+
+        } else if (result.artifactCard) {
+
+        }
+
+    });
 }
 
-exports.cardUpdatePost = function (req, res, next) {
+function findBaseCardById(id, cb) {
+    async.parallel({
+        baseCard: (callback) => {
+            cards.baseCardModel.findById(id).execute(callback);
+        }
+    }, (err, result) => {
+        if (err) {
+            cb(err, null);
+            return;
+        }
 
+        cb(null, result);
+    })
 }
+
+exports.cardUpdatePost = [
+    function(req, res, next) {
+        let requiredGemsArray = req.body.requiredGems.toString().split(',');
+        req.body.requiredGems = requiredGemsArray;
+        next();
+    },
+
+    body('name', 'Name must not be empty.').trim().isLength({ min: 1 })
+    .escape(),
+    body('color').escape(),
+    body('requiredGems.*').optional({ checkFalsy: true }).escape(),
+    body('manaCost', 'Mana cost must not be empty').isNumeric()
+        .withMessage('Only numbers allowed as mana cost').escape(),
+    body('rarity').escape(),
+    body('strength').isNumeric().withMessage('Strength must be a number')
+        .escape(),
+    body('health').isNumeric().withMessage('Health must be a number')
+        .escape(),
+    body('Effects').optional({checkFalsy: true}).escape(),
+
+    (req, res, next) => {
+        // check for errors
+        let errors = validationResult(req);
+        // make the base card
+        let baseCard = new cards.baseCardModel({
+            color: req.body.color,
+            requiredGems: req.body.requiredGems,
+            manaCost: req.body.manaCost,
+            name: req.body.name,
+            rarity: req.body.rarity
+        });
+
+        // Find the creature card in order to find the base card
+        async.parallel({
+            creatureCard: (callback) => {
+                cards.creatureCardModel.findById(req.params.id).exec(callback);
+            }
+        }, (err, result) => {
+            if (err) {
+                return next(err);
+            }
+
+            // update the base card
+                    baseCard._id = result.creatureCard.baseCard;
+                    cards.baseCardModel.findByIdAndUpdate(
+                        result.creatureCard.baseCard, baseCard, {}, function(err, theCard) {
+                            if (err) {
+                                return next(err);
+                            }
+                            //update the Creature Card
+                            let updatedCreatureCard = new cards.creatureCardModel({
+                                _id: result.creatureCard.id,
+                                baseCard: theCard.id,
+                                strength: req.body.strength,
+                                health: req.body.health,
+                                effects: req.body.effects
+                            });
+
+                            // Update
+                            cards.creatureCardModel.findByIdAndUpdate(
+                                req.params.id, updatedCreatureCard, {},
+                                (err, theCreatureCard) => {
+                                    if (err) {
+                                        return next(err);
+                                    }
+
+                                    res.redirect(result.creatureCard.url);
+                                }
+                            );
+                    });
+                
+        });
+        // find the base card that needs to be updated
+        // find the creature card that needs to be updated
+
+    }
+]
+    // validate

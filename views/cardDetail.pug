@@ -29,6 +29,8 @@ block content
                 h3
                     // TODO(Wuhie): Implement this for other cards (spell artifact)
                     a(href=card.deleteUrl) Delete this card
+                h3
+                    a(href=card.updateUrl) Update this card
         else if (data.spellCard !== null)
             - let card = data.spellCard
             div(class="card border-dark mb-1")
