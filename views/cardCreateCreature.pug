@@ -3,79 +3,93 @@ extends layout
 block content
     div(class='container-fluid')
         // Start of the form for the base card
-        if updateCard===undefined
-            h1 Update card not defined
-        else
-            form(action='' method='POST')
-                div.form-group
+        form(action='' method='POST')
+            div.form-group
+                if updateCard && updateCard.creatureCard
                     label(for='name') Name:
-                    input#name.form-control(type='text' placeholder='Name of the card.' name='name' required='true' value=(updateCard!==undefined ? updateCard.creatureCard.baseCard.name : undefined===card ? '' : card.baseCard.name))
-                div.form-group
+                    input#name.form-control(type='text' placeholder='Name of the card.' name='name' required='true' value=(updateCard.creatureCard.baseCard.name))
+                else 
+                    label(for='name') Name:
+                    input#name.form-control(type='text' placeholder='Name of the card.' name='name' required='true' value=(undefined===card ? '' : card.baseCard.name))
+            div.form-group
+                // Update Card
+                if updateCard
+                    label(for='color') Color:
+                    select#color.form-control(type='select' placeholder='Select a color' name='color' required='true')
+                        for color in cardColorArray
+                            if updateCard.creatureCard
+                                option(
+                                    value=color
+                                    selected=(updateCard.creatureCard.baseCard.color===color ? 'selected' : false)
+                                ) #{color}
+                            else
+                                option(value=color) #{color}
+                else
                     label(for='color') Color:
                     select#color.form-control(type='select' placeholder='Select a color' name='color' required='true')
                         for color in cardColorArray
                             if card
                                 option(
                                     value=color
-                                    selected = (updateCard.creatureCard.baseCard.color==color ? 'selected' : card.baseCard.color==color ? 'selected' : false)
+                                    selected=(card.baseCard.color==color ? 'selected' : false)
                                 ) #{color}
                             else
                                 option(value=color) #{color}
-                div.form-group
-                    label(for='rarity') Rarity:
-                    select#rarity.form-control(type='select' placeholder='Select a rarity' name='rarity' required='true')
-                        for rarity in rarityArray
-                            if updateCard.creatureCard
-                                option(
-                                    value=rarity
-                                    selected = (updateCard.creatureCard.baseCard.rarity==rarity ? 'selected' : false)
-                                ) #{rarity}
-                            else if card
-                                option(
-                                    value=rarity
-                                    selected = (card.baseCard.rarity==rarity ? 'selected' : false)
-                                ) #{rarity}
-                            else
-                                option(value=rarity) #{rarity}
-                div.form-group
-                    label(for='manaCost') Mana Cost:
-                    if updateCard.creatureCard
-                        input#manaCost.form-control(type='text' placeholder='Mana Cost' name='manaCost' required='true' value=(undefined===updateCard.creatureCard ? '' : updateCard.creatureCard.baseCard.manaCost))
-                    else if card
-                        input#manaCost.form-control(type='text' placeholder='Mana Cost' name='manaCost' required='true' value=(undefined===card ? '' : card.baseCard.manaCost))
-                // This will be sliced and turned into an array
-                // TODO(Wuhie): Fix this so it puts the value as a string instead of an array
-                div.form-group
-                    if updateCard.creatureCard
-                        label(for='requiredGems') Required Gems:
-                        input#requiredGems.form-control(type='text' placeholder='Required Gems' name='requiredGems' required='true' value=(undefined===updateCard.creatureCard ? '' : updateCard.creatureCard.baseCard.requiredGems))
-                    else if card
-                        label(for='requiredGems') Required Gems:
-                        input#requiredGems.form-control(type='text' placeholder='Required Gems' name='requiredGems' required='true' value=(undefined===card ? '' : card.baseCard.requiredGems))
-                // End of the form for the base card
-                // Beginning of the form for the creature type
-                div.form-group
-                    if (updateCard.creatureCard)
-                        label(for='strength') Strength:
-                        input#strength.form-control(type='text' placeholder='Creature Strength' name='strength' required='true' value=(undefined===updateCard.creatureCard ? '' : updateCard.creatureCard.strength))
-                    else if (card)
-                        label(for='strength') Strength:
-                        input#strength.form-control(type='text' placeholder='Creature Strength' name='strength' required='true' value=(undefined===card ? '' : card.strength))
-                div.form-group
-                    if (updateCard.creatureCard)
-                        label(for='health') Health:
-                        input#health.form-control(type='text' placeholder='Creature health' name='health' required='true' value=(undefined===updateCard.creatureCard ? '' : updateCard.creatureCard.health))
-                    else if (card)
-                        label(for='health') Health:
-                        input#health.form-control(type='text' placeholder='Creature health' name='health' required='true' value=(undefined===card ? '' : card.health))
-                div.form-group
-                    if (updateCard.creatureCard)
-                        label(for='effects') Effects:
-                        input#effects.form-control(type='text' placeholder='Creature Effects' name='effects' required='true' value=(undefined===updateCard.creatureCard ? '' : updateCard.creatureCard.effects))
-                    else if (card)
-                        label(for='effects') Effects:
-                        input#effects.form-control(type='text' placeholder='Creature Effects' name='effects' required='true' value=(undefined===card ? '' : card.effects))
-                button.btn.btn-primary(type='sumbit') Submit
+            div.form-group
+                label(for='rarity') Rarity:
+                select#rarity.form-control(type='select' placeholder='Select a rarity' name='rarity' required='true')
+                    for rarity in rarityArray
+                        if updateCard && updateCard.creatureCard
+                            option(
+                                value=rarity
+                                selected = (updateCard.creatureCard.baseCard.rarity==rarity ? 'selected' : false)
+                            ) #{rarity}
+                        else if card
+                            option(
+                                value=rarity
+                                selected = (card.baseCard.rarity==rarity ? 'selected' : false)
+                            ) #{rarity}
+                        else
+                            option(value=rarity) #{rarity}
+            div.form-group
+                label(for='manaCost') Mana Cost:
+                if updateCard && updateCard.creatureCard
+                    input#manaCost.form-control(type='text' placeholder='Mana Cost' name='manaCost' required='true' value=(undefined===updateCard.creatureCard ? '' : updateCard.creatureCard.baseCard.manaCost))
+                else
+                    input#manaCost.form-control(type='text' placeholder='Mana Cost' name='manaCost' required='true' value=(undefined===card ? '' : card.baseCard.manaCost))
+            // This will be sliced and turned into an array
+            // TODO(Wuhie): Fix this so it puts the value as a string instead of an array
+            div.form-group
+                if updateCard && updateCard.creatureCard
+                    label(for='requiredGems') Required Gems:
+                    input#requiredGems.form-control(type='text' placeholder='Required Gems' name='requiredGems' required='true' value=(undefined===updateCard.creatureCard ? '' : updateCard.creatureCard.baseCard.requiredGems))
+                else
+                    label(for='requiredGems') Required Gems:
+                    input#requiredGems.form-control(type='text' placeholder='Required Gems' name='requiredGems' required='true' value=(undefined===card ? '' : card.baseCard.requiredGems))
+            // End of the form for the base card
+            // Beginning of the form for the creature type
+            div.form-group
+                if (updateCard && updateCard.creatureCard)
+                    label(for='strength') Strength:
+                    input#strength.form-control(type='text' placeholder='Creature Strength' name='strength' required='true' value=(undefined===updateCard.creatureCard ? '' : updateCard.creatureCard.strength))
+                else
+                    label(for='strength') Strength:
+                    input#strength.form-control(type='text' placeholder='Creature Strength' name='strength' required='true' value=(undefined===card ? '' : card.strength))
+            div.form-group
+                if (updateCard && updateCard.creatureCard)
+                    label(for='health') Health:
+                    input#health.form-control(type='text' placeholder='Creature health' name='health' required='true' value=(undefined===updateCard.creatureCard ? '' : updateCard.creatureCard.health))
+                else
+                    label(for='health') Health:
+                    input#health.form-control(type='text' placeholder='Creature health' name='health' required='true' value=(undefined===card ? '' : card.health))
+            div.form-group
+                if (updateCard && updateCard.creatureCard)
+                    label(for='effects') Effects:
+                    input#effects.form-control(type='text' placeholder='Creature Effects' name='effects' required='true' value=(undefined===updateCard.creatureCard ? '' : updateCard.creatureCard.effects))
+                else
+                    label(for='effects') Effects:
+                    input#effects.form-control(type='text' placeholder='Creature Effects' name='effects' required='true' value=(undefined===card ? '' : card.effects))
+            button.btn.btn-primary(type='sumbit') Submit
 
     if errors
         ul
